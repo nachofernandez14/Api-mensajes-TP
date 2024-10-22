@@ -34,4 +34,13 @@ def ver_mensaje(mensaje_id: int):
 @app.get("/mensajes/", response_model = list[Mensaje])
 def listar_mensajes():
     return mensajes_db
+
+#Actualizar mensaje
+@app.put("/mensajes/{mensaje_id}", response_model=Mensaje)
+def actualizar_mensaje(mensaje_id: int, mensaje_actualizado: Mensaje):
+    for index, mensaje in enumerate(mensajes_db):
+        if mensaje.id == mensaje_id:
+            mensajes_db[index] = mensaje_actualizado
+            return mensaje_actualizado
+    raise HTTPException(status_code=404, detail="Mensaje no encontrado")
     
